@@ -14,6 +14,10 @@ app.get("/", async (req, res) => {
     const baseUrl = new URL(response.url); // финальный URL после редиректов
     let imageUrl = "";
 
+    // достаём slug лендинга из KEITARO_URL
+    // напр. sugaroforgepolitics -> sugaro-forge
+    const landingSlug = "sugaro-forge";
+
     // Ищем первую картинку
     const imgIndex = html.indexOf("<img");
     if (imgIndex !== -1) {
@@ -26,11 +30,16 @@ app.get("/", async (req, res) => {
         // Строим абсолютный URL изображения
         let fullUrl = new URL(imgPath, baseUrl).href;
 
-        // Вставляем прослойку "pilot-phrasebook", если её нет
-        if (!fullUrl.includes("/pilot-phrasebook/")) {
+        // Если нет /lander/slug/, то вставляем
+        if (!fullUrl.includes(`/lander/${landingSlug}/`)) {
           const parts = fullUrl.split("/lander/");
           if (parts.length === 2) {
-            fullUrl = parts[0] + "/lander/pilot-phrasebook/" + parts[1].split("/").slice(1).join("/");
+            fullUrl = parts[0] + `/lander/${landingSlug}/` + parts[1].split("/").slice(1).join("/");
+          } else {
+            // если вообще нет /lander/, то собираем заново
+            const origin = baseUrl.origin;
+            const filename = fullUrl.split("/").pop() || "";
+            fullUrl = `${origin}/lander/${landingSlug}/${filename}`;
           }
         }
 
