@@ -11,7 +11,7 @@ app.use((req, res, next) => {
   next();
 });
 
-const KEITARO_URL = "http://origin.sugarofforge.click/sugarofforgepolitics";
+const KEITARO_URL = "http://origin.sugaroforge.click/sugaroforgepolitics";
 
 app.get("/", async (req, res) => {
   try {
