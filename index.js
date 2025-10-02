@@ -4,7 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Ссылка на Keitaro лендинг
-const KEITARO_URL = "https://a-origin.pilotphrasebook.click/lander/pilotphrasebook-Policy";
+const KEITARO_URL = "http://origin.sugaroforge.click/sugaroforgepolitics";
 
 app.get("/", async (req, res) => {
   try {
