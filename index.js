@@ -1,13 +1,16 @@
 import express from "express";
-import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Разрешаем запросы с любого источника
-app.use(cors());
+// Middleware для добавления заголовков CORS
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*"); // разрешаем все источники
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
 
-// Ссылка на Keitaro лендинг
 const KEITARO_URL = "http://origin.sugarofforge.click/sugarofforgepolitics";
 
 app.get("/", async (req, res) => {
@@ -17,7 +20,6 @@ app.get("/", async (req, res) => {
 
     const baseUrl = new URL(response.url);
     let imageUrl = "";
-
     const landingSlug = "sugaro-forge";
 
     const imgIndex = html.indexOf("<img");
